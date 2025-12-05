@@ -49,7 +49,7 @@ app.get('/vagas/:id', async (req, res) => {
 });
 
 
-app.post('/vagas/:id', async (req, res) => {
+app.post('/vagas', async (req, res) => {
   try {
     const { titulo, area, salario, remoto } = req.body;
     const { data, error } = await supabase
@@ -95,4 +95,5 @@ app.delete('/vagas/:id', async (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
+
 });
