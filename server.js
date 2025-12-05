@@ -66,13 +66,18 @@ app.post('/vagas', async (req, res) => {
 
 app.put('/vagas/:id', async (req, res) => {
   try {
-    const { nome, preco, foto } = req.body;
+    const { titulo, area, salario, remoto } = req.body;
     const { data, error } = await supabase
       .from('vagas')
-      .update({ nome, preco, foto })
+      .update({ titulo, area, salario, remoto })
       .eq('id', req.params.id)
       .select();
-    if (error) throw error;
+    if (error) {
+      throw error;
+    }
+    if (data.length === 0) {
+      return res.status(404).json({ erro: `Vaga com id ${req.params.id} não encontrada.` });
+    }
     res.json(data);
   } catch (error) {
     res.status(400).json({ erro: error.message });
@@ -95,5 +100,4 @@ app.delete('/vagas/:id', async (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
-
 });
